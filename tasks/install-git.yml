@@ -1,0 +1,7 @@
+# install git: sudo apt-get install git-core
+# depends on: none
+#
+
+# install git:
+- name: Install git
+  apt: pkg=git-core state=present

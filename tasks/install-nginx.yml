@@ -1,0 +1,6 @@
+# install nginx
+# depends on: none
+#
+
+- name: Install nginx
+  apt: pkg=nginx state=present

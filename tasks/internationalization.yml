@@ -1,0 +1,15 @@
+# Generate Locale
+- name: Generate Locale
+  become: yes
+  command: locale-gen {{ locale }}
+
+# Set Locale
+- name: Set Locale
+  become: yes
+  command: update-locale LC_ALL={{ locale }} LANG={{ locale }}
+
+# set /etc/timezone
+- name: set /etc/timezone
+  become: yes
+  template: src=../templates/timezone dest=/etc/timezone
+# notify: update tzdata

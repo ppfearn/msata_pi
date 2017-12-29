@@ -2,6 +2,10 @@
 
 Flash a new lite image onto an SD card and put the following files in the boot partition: ssh, interfaces, and wpa_supplicant.conf
 
+You need to login once via ssh to allow ansible to be able to connect
+
+run with: ansible-playbook -i hosts playbooks/bootstrap.yml --ask-pass
+
 
 ---------- PF END of my edits ------------
 

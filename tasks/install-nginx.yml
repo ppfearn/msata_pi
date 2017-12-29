@@ -7,19 +7,16 @@
 
 # copy sites-available
 
-- name: Add nginx config files to the nginx available sites
-      become: true
-      template:
-        src: templates/paulfearn.duckdns.org
-        dest: "/etc/nginx/sites-available/paulfearn.duckdns.org"
+- copy:
+    src: "../templates/nginx/sites-available/paulfearn.duckdns.org"
+    dest: "/etc/nginx/sites-available/paulfearn.duckdns.org"
 
 # create site-enabled from sites-available
 
-- name: Enable config templates in Nginx available sites
-      become: true
-      file:
-        src: "/etc/nginx/sites-available/paulfearn.duckdns.org"
-        dest: "/etc/nginx/sites-enabled/paulfearn.duckdns.org"
-        state: link
+
+- file:
+    src: "/etc/nginx/sites-available/paulfearn.duckdns.org"
+    dest: "/etc/nginx/sites-enabled/paulfearn.duckdns.org"
+    state: link
 
 # add any additional fields required to nginx.conf

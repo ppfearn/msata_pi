@@ -1,0 +1,5 @@
+# set motd
+
+- copy:
+    src: ../templates/etc/motd
+    dest: /etc/motd

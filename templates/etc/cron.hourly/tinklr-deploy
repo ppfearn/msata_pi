@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# test by writing to file
+#echo "ran start" >> /home/pi/test_cron_hourly
+
+# navigate to git repo
+cd /home/pi/auto-publish-projects/blog
+
+# bring remote refs up to date
+git remote update
+
+# check for changes between our repo and remote
+if [[ `git diff --name-only origin/release` ]]; then
+
+  # changes
+  echo 'changes'
+
+  # get all changes ignore any changes in this workspace
+  git reset --hard origin/release
+  #git pull
+  
+  # build jekyll
+  sudo bundle exec jekyll build
+
+  # rsync nginx html directory
+  rsync -ravz /home/pi/auto-publish-projects/blog/_site/ /usr/share/nginx/html/_site/
+
+  # remove changes made by building the project
+  #git checkout .
+
+else
+
+  echo 'no changes'
+
+  # no changes so regenerate jekyll to create any new posts without updating git first
+  sudo bundle exec jekyll build
+
+  # rsync nginx html directory
+  rsync -ravz /home/pi/auto-publish-projects/blog/_site/ /usr/share/nginx/html/_site/
+
+  # remove changes made by building the project
+  git checkout .
+
+fi
+
+#echo "ran end" >> /home/pi/test_cron_hourly

@@ -5,3 +5,8 @@
 # install git:
 - name: Install git
   apt: pkg=git-core state=present
+
+- git:
+    repo: 'https://{{ git_user }}:{{ git_pass }}@pfgit.duckdns.org/repos/web/blog.git'
+    dest: /usr/local/share/nginx/html/
+    version: release

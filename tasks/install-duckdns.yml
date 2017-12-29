@@ -1,0 +1,7 @@
+- name: Add certbot update to crontab
+  become: true
+  lineinfile:
+    dest=/var/spool/crontabs/pi
+    line="17 0 * * 3  ./home/pi/certbot-auto renew --quiet --no-self-upgrade --post-hook \"sudo service nginx restart\""
+    state=present
+    insertafter=EOF

@@ -1,0 +1,7 @@
+# install fail2ban
+# depends on: none
+#
+
+# install fail2ban:
+- name: Install fail2ban
+  apt: pkg=fail2ban state=present

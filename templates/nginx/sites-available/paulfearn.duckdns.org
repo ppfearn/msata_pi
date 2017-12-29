@@ -1,0 +1,79 @@
+server {
+        listen   80;
+        server_name paulfearn.duckdns.org;
+        root /usr/share/nginx/html;
+
+        location / {
+                return 301 https://$host$request_uri;
+        }
+	location ~ /.well-known {
+                allow all;
+        }
+}
+
+server {
+        listen 443 ssl;
+        server_name paulfearn.duckdns.org;
+        ssl_certificate /etc/letsencrypt/live/paulfearn.duckdns.org/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/paulfearn.duckdns.org/privkey.pem;
+        ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+        ssl_ciphers         HIGH:!aNULL:!MD5;
+        root /usr/share/nginx/html;
+        index index.html index.htm;
+
+        location / {
+                try_files $uri $uri/ /index.html;
+        }
+
+	location /iptv {
+		try_files $uri $uri/ /iptv;
+	}
+
+        location /PowerPiSecurity/ {
+		proxy_pass https://192.168.1.231:8443/PowerPiSecurity/;
+                #proxy_pass https://localhost:8443/PowerPiSecurity/;
+        }
+                location /PowerPiSecurity/rest {
+		proxy_read_timeout 180;
+                proxy_pass https://192.168.1.231:8443;
+        }
+        location /web/ {
+                proxy_pass http://192.168.1.180/;
+        }
+
+        # image api for ipcams
+        location /image-api {
+                auth_basic "requires authorization";
+                auth_basic_user_file /home/pi/.ipcampasswd;
+                proxy_pass http://192.168.1.231/image-api;
+        }
+	location /image-api/healthcheck {
+		proxy_pass http://192.168.1.231/image-api/healthcheck;
+        }
+	# image api for ipcams api
+        location /image-api/api {
+                auth_basic "requires authorization";
+                auth_basic_user_file /home/pi/.ipcampasswd;
+                proxy_pass http://192.168.1.231/image-api/api;
+        }
+        # image location for ipcams
+        location /ipcam {
+#                auth_basic "requires authorization";
+#                auth_basic_user_file /home/pi/.ipcampasswd;
+		proxy_pass http://192.168.1.231;
+#                root /var/www/html;
+        }
+	# plane tracker api:
+	location /planes/ {
+                proxy_pass http://192.168.1.231:3006/;
+        }
+	# plane browser view:
+	location /aircraft {
+		proxy_pass http://192.168.1.231:9090;
+	}	
+	# ipcam hallway
+	location /hallwaycam {
+		proxy_pass http://192.168.1.148/;
+	}
+}
+

@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# navigate to git repo
+cd /home/pi/auto-publish-projects/health-check
+
+# bring remote refs up to date
+git remote update
+
+# check for changes between our repo and remote
+if [[ `git diff --name-only origin/release` ]]; then
+
+  # changes
+  echo 'changes'
+
+  # pull the changes
+  git pull
+
+  # rsync nginx html directory
+  rsync -ravz --exclude 'LICENSE' --exclude 'README.md' /home/pi/auto-publish-projects/health-check/ /usr/share/nginx/html/health-check/
+
+  # remove changes made by building the project
+  git checkout .
+
+  # go to site directory and restart pm2
+  cd /usr/share/nginx/html/health-check
+  npm install
+  pm2 restart server.js -n health-check
+
+else
+
+  echo 'no changes'
+
+fi
+

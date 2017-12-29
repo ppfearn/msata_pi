@@ -1,4 +1,9 @@
-# Ansible Playbooks for Raspberry Pi setup
+# msata_pi Raspberry Pi setup
+
+Flash a new lite image onto an SD card and put the following files in the boot partition: ssh, interfaces, and wpa_supplicant.conf
+
+
+---------- PF END of my edits ------------
 
 Some simple playbooks, templates and tasks for setup and configuration of my assorted raspberry pi boards and projects. I have found the Ansible [lineinfile](http://docs.ansible.com/ansible/lineinfile_module.html) module is perfect for automating Raspberry Pi setup since most of the configuration is done via text files.
 

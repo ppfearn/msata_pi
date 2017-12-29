@@ -1,0 +1,26 @@
+server {
+  listen 4321;
+
+  location /index.cgi {
+    auth_basic "GitWeb requires authorization";
+    auth_basic_user_file /home/git/.gitpasswd;
+    root /usr/share/gitweb/;
+    include fastcgi_params;
+    gzip off;
+    fastcgi_param SCRIPT_NAME $uri;
+    fastcgi_param GITWEB_CONFIG /etc/gitweb.conf;
+    fastcgi_pass  unix:/var/run/fcgiwrap.socket;
+  }
+
+  location / {
+    #root /usr/share/gitweb/;
+    #index index.cgi;
+	proxy_pass http://192.168.1.231:4321;
+  }
+
+         location /.well-known/acme-challenge/ {
+                #root /usr/share/nginx/www;
+               alias /usr/share/nginx/html/;
+       }
+
+}

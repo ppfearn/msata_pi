@@ -8,5 +8,5 @@
 
 - git:
     repo: 'https://{{ git_user }}:{{ git_pass }}@pfgit.duckdns.org/repos/web/blog.git'
-    dest: /usr/share/nginx/html/tinklr
+    dest: /home/pi/auto-publish-projects
     version: release

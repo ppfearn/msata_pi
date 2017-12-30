@@ -1,0 +1,13 @@
+## install jekyll
+
+- name: Install software properties common
+  apt: pkg=software-properties-common state=present
+
+- name: install ruby-full
+  apt: pkg=ruby-full
+
+- name: install jekyll
+  command: bash -lc "gem install jekyll"
+
+- name: install bundler
+  command: bash -lc "gem install bundler"
